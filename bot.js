@@ -90,6 +90,10 @@ bot.action("mobile", (ctx) => {
   ctx.replyWithMarkdownV2(roadmaps.mobile);
 });
 
+app.get('/', (req, res) => {
+  res.send('DevMapBot is running!');
+});
+
 app.use(bot.webhookCallback('/webhook')); 
 
 const PORT = process.env.PORT || 3000;
