@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "main": "bot.js",
   "scripts": {
+    "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "telegram",
+    "bot",
+    "roadmap",
+    "developer"
+  ],
+  "author": "Sanoj Ahamed",
   "license": "ISC",
-  "description": "",
+  "description": "A Telegram bot that provides developer roadmaps",
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
