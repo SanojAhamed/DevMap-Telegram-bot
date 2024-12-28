@@ -90,6 +90,8 @@ bot.action("mobile", (ctx) => {
   ctx.replyWithMarkdownV2(roadmaps.mobile);
 });
 
+// bot.launch();
+
 app.use(bot.webhookCallback('/webhook'));
 
 app.get('/', (req, res) => {
