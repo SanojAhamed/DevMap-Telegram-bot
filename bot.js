@@ -1,5 +1,7 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf');
+const express = require('express');
+const app = express();
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -12,7 +14,7 @@ const roadmaps = {
 5\\. Testing: Jest, Cypress\n
 [Learn More on Roadmap\\.sh](https://roadmap.sh/frontend)\n
 [30 Days of JavaScript on GitHub](https://github.com/Asabeneh/30-Days-Of-JavaScript)`,
-  
+
   backend: `*Backend Developer Roadmap*\\:\n
 1\\. Server\\-Side Programming: PHP, Node\\.js, Python, Java, etc\\.\n
 2\\. Databases: PostgreSQL, MongoDB, etc\\.\n
@@ -20,20 +22,20 @@ const roadmaps = {
 4\\. Authentication: JWT, OAuth\n
 5\\. DevOps Basics: Docker, CI/CD\n
 [Learn More on Roadmap\\.sh](https://roadmap.sh/backend)`,
-  
+
   fullstack: `*Fullstack Developer Roadmap*\\:\n
 1\\. Combine Frontend and Backend Skills\n
 2\\. Learn Deployment: Netlify, Vercel, AWS\n
 3\\. Master APIs: GraphQL, REST\n
 [Learn More on Roadmap\\.sh](https://roadmap.sh/fullstack)`,
-  
+
   devops: `*DevOps Engineer Roadmap*\\:\n
 1\\. Infrastructure Basics: Networking, Linux\n
 2\\. Automation: CI/CD Pipelines\n
 3\\. Cloud Platforms: AWS, Azure, Google Cloud\n
 4\\. Monitoring: Grafana, Prometheus\n
 [Learn More on Roadmap\\.sh](https://roadmap.sh/devops)`,
-  
+
   mobile: `*Mobile Developer Roadmap*\\:\n
 1\\. Learn Mobile Basics: Android \\(Java/Kotlin\\) or iOS \\(Swift\\)\n
 2\\. Cross\\-Platform Frameworks: Flutter, React Native\n
@@ -60,13 +62,13 @@ const showMenu = (ctx) => {
 };
 
 bot.start((ctx) => {
-    const firstName = ctx.from.first_name ? ctx.from.first_name.replace(/_/g, "\\_") : "Developer";
-    ctx.reply(
-      `Welcome, *${firstName}*\\ 🎉\nI'm *DevMapBot*, your guide to developer roadmap\\. Select a roadmap to get started or type /menu to see options anytime\\.`,
-      { parse_mode: "MarkdownV2" }
-    );
-    showMenu(ctx);
-  });  
+  const firstName = ctx.from.first_name ? ctx.from.first_name.replace(/_/g, "\\_") : "Developer";
+  ctx.reply(
+    `Welcome, *${firstName}*\\ 🎉\nI'm *DevMapBot*, your guide to developer roadmap\\. Select a roadmap to get started or type /menu to see options anytime\\.`,
+    { parse_mode: "MarkdownV2" }
+  );
+  showMenu(ctx);
+});
 
 bot.command("menu", (ctx) => {
   showMenu(ctx);
@@ -88,7 +90,11 @@ bot.action("mobile", (ctx) => {
   ctx.replyWithMarkdownV2(roadmaps.mobile);
 });
 
-bot.launch();
+app.use(bot.webhookCallback('/webhook')); 
 
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+bot.telegram.setWebhook(`${process.env.HOST_URL}/webhook`);
