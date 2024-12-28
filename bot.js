@@ -90,15 +90,15 @@ bot.action("mobile", (ctx) => {
   ctx.replyWithMarkdownV2(roadmaps.mobile);
 });
 
+app.use(bot.webhookCallback('/webhook')); 
+
 app.get('/', (req, res) => {
   res.send('DevMapBot is running!');
 });
 
-app.use(bot.webhookCallback('/webhook')); 
+bot.telegram.setWebhook(`${process.env.HOST_URL}/webhook`);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-bot.telegram.setWebhook(`${process.env.HOST_URL}/webhook`);
