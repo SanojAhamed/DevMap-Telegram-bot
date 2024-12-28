@@ -90,7 +90,7 @@ bot.action("mobile", (ctx) => {
   ctx.replyWithMarkdownV2(roadmaps.mobile);
 });
 
-app.use(bot.webhookCallback('/webhook')); 
+app.use(bot.webhookCallback('/webhook'));
 
 app.get('/', (req, res) => {
   res.send('DevMapBot is running!');
